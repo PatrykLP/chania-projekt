@@ -193,6 +193,13 @@
   const $ = id => document.getElementById(id);
   const pad = n => String(n).padStart(2, "0");
 
+  function plural(n, [one, few, many]){
+    if (n === 1) return one;
+    const m10 = n % 10, m100 = n % 100;
+    if (m10 >= 2 && m10 <= 4 && !(m100 >= 12 && m100 <= 14)) return few;
+    return many;
+  }
+
   function tick(){
     const now = new Date();
 
@@ -212,8 +219,11 @@
     const cs = Math.floor(ms / 10);
 
     $("y").textContent = y;
+    $("y").nextElementSibling.textContent = plural(y, ["rok", "lata", "lat"]);
     $("mo").textContent = mo;
+    $("mo").nextElementSibling.textContent = plural(mo, ["miesiąc", "miesiące", "miesięcy"]);
     $("d").textContent = d;
+    $("d").nextElementSibling.textContent = plural(d, ["dzień", "dni", "dni"]);
     $("h").textContent = pad(h);
     $("mi").textContent = pad(mi);
     $("s").textContent = pad(s);
