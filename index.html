@@ -93,6 +93,35 @@
   @keyframes fade{0%,100%{opacity:.25}50%{opacity:.8}}
   @media (prefers-reduced-motion:reduce){.scroll-hint{animation:none}}
 
+  /* ---------- CHANI OF THE DAY ---------- */
+  .cotd{
+    padding:12vh 5vw 10vh;
+    display:flex;flex-direction:column;align-items:center;
+    text-align:center;
+  }
+  .cotd-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:.78rem;
+    letter-spacing:.36em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:5vh;
+  }
+  .cotd-frame{
+    padding:.8rem;
+    border:1px solid var(--hair);
+    background:#FFFFFF;
+    box-shadow:0 40px 70px -30px rgba(43,29,18,.22);
+    max-width:620px;
+    width:100%;
+  }
+  .cotd-frame img{
+    display:block;width:100%;height:auto;
+    max-height:64vh;object-fit:cover;
+    border:1px solid var(--hair);
+  }
+
   /* ---------- KOLAŻ ---------- */
   .collage{
     display:grid;
@@ -149,6 +178,13 @@
   <p class="scroll-hint">↓ Chania</p>
 </header>
 
+<section class="cotd">
+  <p class="cotd-title">Chani of the day</p>
+  <div class="cotd-frame">
+    <img id="cotd-img" src="" alt="Chania of the day" loading="lazy">
+  </div>
+</section>
+
 <section class="collage" id="collage">
   <div class="tile w2 h2"><img src="foto/1000094183.JPG" alt="Chania" loading="lazy"></div>
   <div class="tile"><img src="foto/1000096533.JPG" alt="Chania" loading="lazy"></div>
@@ -192,6 +228,22 @@
   const START = new Date(2024, 9, 1, 0, 0, 0); // 01.10.2024
   const $ = id => document.getElementById(id);
   const pad = n => String(n).padStart(2, "0");
+
+  const PHOTOS = [
+    "1000094183.JPG","1000096533.JPG","1000097754.JPG","1000097956.JPG","1000099029.JPG","1000099270.JPG",
+    "1000099724.JPG","1000099878.JPG","1000101409.JPG","1000101888.JPG","1000102021.JPG","1000102121.JPG",
+    "1000104683.JPG","1000104701.JPG","1000105692.JPG","1000106094.JPG","1000106394.JPG","1000107243.JPG",
+    "1000107886.JPG","1000115975.JPG","7715a11d-b22b-46f8-84f3-f5a1bfd74b47.JPG","IMG_3761.JPG","IMG_3762.JPG","IMG_3763.JPG",
+    "IMG_3764.JPG","IMG_3765.JPG","IMG_3766.JPG","IMG_3767.JPG","IMG_3768.JPG","IMG_3770.JPG","IMG_3771.JPG"
+  ];
+
+  (function setPhotoOfTheDay(){
+    const now = new Date();
+    const key = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+    $("cotd-img").src = "foto/" + PHOTOS[hash % PHOTOS.length];
+  })();
 
   function plural(n, [one, few, many]){
     if (n === 1) return one;
